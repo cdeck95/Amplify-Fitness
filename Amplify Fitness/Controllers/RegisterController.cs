@@ -17,7 +17,7 @@ namespace Amplify_Fitness.Controllers
         public ActionResult Register()
         {
 
-            AmazonLambdaClient client = new AmazonLambdaClient("AKIAIB2B3AH6QMWGMADA", "LMzvQzBm6bXoCEZAn8lkBv7ZH+TFtEDa6sYlKoEM", RegionEndpoint.USEast1);
+            AmazonLambdaClient client = new AmazonLambdaClient("", "", RegionEndpoint.USEast1);
 
 
             InvokeRequest ir = new InvokeRequest
