@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:BestBet.ViewModels" xmlns:bestbet="clr-namespace:BestBet"
+             x:Class="BestBet.MainPage"
+             Visual="Material"
+             Title="Best Bet"
+             BackgroundColor="LightGray">
+    <ContentPage.BindingContext>
+        <viewmodel:SportsViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content >
+        <Grid BackgroundColor="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".15*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+            <ImageButton Source="filter.png" Visual="Material" Margin="5,5" HorizontalOptions="EndAndExpand" Clicked="ImageButton_Clicked" Grid.Row="1" Grid.Column="1"/>
+            <ImageButton Source="home.png" Visual="Material"  Margin="5,5" HorizontalOptions="EndAndExpand" Clicked="home_Clicked" Grid.Row="0" Grid.Column="0"/>
+            <!--<Label Text="Moneyline" TextColor="Black" FontSize="Small" HorizontalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Grid.Row="1" Grid.Column="2"/>
+            <Label Text="Spread" TextColor="Black" FontSize="Small" HorizontalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Grid.Row="1" Grid.Column="3"/>
+            <Label Text="Total" TextColor="Black" FontSize="Small" HorizontalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Grid.Row="1" Grid.Column="4"/>-->
+            
+        <CollectionView ItemsSource="{Binding AllSports}" SelectionMode="Single" SelectionChanged="CollectionView_SelectionChanged" ItemsLayout="HorizontalList" Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="0" BackgroundColor="Transparent">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                   
+                    <Frame Padding="10, 10, 10, 10" BackgroundColor="Transparent" BorderColor="Transparent" HasShadow="True">
+                        <Frame.Content>
+                          <Frame Padding="10,15,10,15" BackgroundColor="{Binding BackgroundColor}" CornerRadius="15" OutlineColor="CadetBlue" >
+                              <Frame.Content>
+                                  
+                                    <Label Text="{Binding title}" VerticalOptions="Center" VerticalTextAlignment="Center" TextColor="Black"/>
+                                     
+                                </Frame.Content>
+                                    </Frame>
+                            </Frame.Content>
+                         </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+                                 
+           <ListView ItemsSource="{Binding AllMatches}" Grid.Row="2" Grid.ColumnSpan="2" RowHeight="250"
+                  IsPullToRefreshEnabled="True"
+                  RefreshCommand="{Binding RefreshCommand}"
+                  IsRefreshing="{Binding IsRefreshing}"
+                  SeparatorVisibility="None"
+                  BackgroundColor="Transparent">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Spacing="-6">
+                         <Frame Padding="10, 10, 10, 10" BackgroundColor="Transparent" BorderColor="Transparent" HasShadow="True">
+                        <Frame.Content>
+                          <Frame Padding="10,15,10,15" Background="White" CornerRadius="10" OutlineColor="CadetBlue" >
+                            <Frame.Content>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height=".75*"/>
+                                        <RowDefinition Height="4*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.5*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <BoxView Grid.Row="0" Grid.Column="3" BackgroundColor="CadetBlue" CornerRadius="10" />
+                                    <BoxView Grid.Row="0" Grid.Column="0" Margin="20,0" BackgroundColor="{Binding IsLive}" CornerRadius="10" />
+                                    
+                                    <Label Text="{Binding sport_nice}" TextColor="Black" FontSize="Medium" HorizontalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="Center" Grid.Row="0" Grid.Column="3"/>
+                                    
+                                    <Label Text="{Binding matchTime}" TextColor="{Binding MatchTimeColor}" FontSize="Small" HorizontalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+
+                                    <Grid Grid.Row="1" Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*" />
+                                            <RowDefinition Height="1*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text="{Binding awayTeam}" FontSize="Medium" MaxLines="2" LineBreakMode="WordWrap" TextColor="Black" Grid.Row="0" Grid.Column="0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                        <!--<Label Text="@" VerticalOptions="Center" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" HorizontalOptions="Center"  Grid.Row="1" Grid.Column="0"/>-->
+                                        <Label Text="{Binding home_team}" FontSize="Medium" MaxLines="2" LineBreakMode="WordWrap"  TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" HorizontalOptions="Center" Grid.Row="1" Grid.Column="0"/>
+
+                                    </Grid>
+
+                                    
+                                    <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width=".9*" />
+                                            <ColumnDefinition Width="1.2*" />
+                                            <ColumnDefinition Width=".9*" />
+                                            <ColumnDefinition Width="1.1*" />
+                                            <ColumnDefinition Width=".9*" />
+                                            <ColumnDefinition Width="1.5*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <Image Source="{Binding awaySiteImage}" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+                                        <Grid Grid.Row="0" Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="{Binding bestAwayOdds}" MaxLines="2" LineBreakMode="CharacterWrap" FontSize="Micro" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+                                        </Grid>
+
+                                        <Image Source="{Binding awaySiteImage}" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="Center" Grid.Row="0" Grid.Column="2"/>
+
+                                         <Grid Grid.Row="0" Grid.Column="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="+3" FontSize="Micro" MaxLines="2" LineBreakMode="CharacterWrap"  TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="End" VerticalTextAlignment="End" HorizontalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+                                            <Label Text="+110" FontSize="Micro" MaxLines="2" LineBreakMode="CharacterWrap"  TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Start" VerticalTextAlignment="Start" HorizontalOptions="Center" Grid.Row="1" Grid.Column="0"/>
+                                        </Grid>
+
+                                        <Image Source="{Binding awaySiteImage}" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="Center" Grid.Row="0" Grid.Column="4"/>
+
+                                         <Grid Grid.Row="0" Grid.Column="5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="O 53.5" FontSize="Micro" MaxLines="2" LineBreakMode="CharacterWrap"  TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="End" VerticalTextAlignment="End" HorizontalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+                                            <Label Text="+110" FontSize="Micro" MaxLines="2" LineBreakMode="CharacterWrap"  TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Start" VerticalTextAlignment="Start" HorizontalOptions="Center" Grid.Row="1" Grid.Column="0"/>
+                                        </Grid>
+
+                                        <Image Source="{Binding homeSiteImage}" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="1" Grid.Column="0"/>
+                                        <Grid Grid.Row="1" Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="{Binding bestHomeOdds}" MaxLines="2" LineBreakMode="CharacterWrap"  FontSize="Micro" TextColor="Black" HorizontalTextAlignment="Start" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+                                        </Grid>
+
+                                        <Image Source="{Binding homeSiteImage}" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="Start" Grid.Row="1" Grid.Column="2"/>
+
+                                         <Grid Grid.Row="1" Grid.Column="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="-3" FontSize="Micro" MaxLines="2" LineBreakMode="CharacterWrap"  TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="End" VerticalTextAlignment="End" HorizontalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+                                            <Label Text="-110" FontSize="Micro" MaxLines="2" LineBreakMode="CharacterWrap"  TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Start" VerticalTextAlignment="Start" HorizontalOptions="Center" Grid.Row="1" Grid.Column="0"/>
+                                        </Grid>
+
+                                        <Image Source="{Binding homeSiteImage}" HeightRequest="50" VerticalOptions="Center" HorizontalOptions="Center" Grid.Row="1" Grid.Column="4"/>
+
+                                         <Grid Grid.Row="1" Grid.Column="5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="U 53.5" FontSize="Micro" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="End" VerticalTextAlignment="End" HorizontalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+                                            <Label Text="-110" FontSize="Micro" TextColor="Black" HorizontalTextAlignment="Center" VerticalOptions="Start" VerticalTextAlignment="Start" HorizontalOptions="Center" Grid.Row="1" Grid.Column="0"/>
+                                        </Grid>
+
+                                        
+                                    </Grid>
+                                     </Grid>
+                                    
+                                </Frame.Content>
+                              </Frame>
+                            </Frame.Content>
+                            </Frame>
+                            </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+    </ContentPage.Content>
+</ContentPage>
